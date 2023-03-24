@@ -1,9 +1,19 @@
-use std::io;
+use is_terminal::IsTerminal;
+use std::io::{self, Read};
 
 fn main() -> io::Result<()> {
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer)?;
+    if std::io::stdin().is_terminal() {
+        println!("Stdin is a terminal");
+    } else {
+        println!("Stdin is not a terminal");
+    }
 
-    dbg!(buffer.to_string());
+    let mut stdin = io::stdin();
+    let mut buf = String::new();
+
+    stdin.read_to_string(&mut buf)?;
+
+    println!("{}", buf);
+
     Ok(())
 }
