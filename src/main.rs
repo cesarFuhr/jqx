@@ -1,4 +1,5 @@
 use is_terminal::IsTerminal;
+use serde_json::Value;
 use std::io::{self, Read};
 
 fn main() -> io::Result<()> {
@@ -13,7 +14,9 @@ fn main() -> io::Result<()> {
 
     stdin.read_to_string(&mut buf)?;
 
-    println!("{}", buf);
+    let v: Value = serde_json::from_str(&buf).unwrap();
+
+    println!("{}", serde_json::to_string_pretty(&v).unwrap());
 
     Ok(())
 }
